@@ -1,13 +1,8 @@
-# $Id: XMLApplication.pm,v 1.19 2004/03/10 17:55:00 c102mk Exp $
-
 package CGI::XMLApplication;
 
 # ################################################################
-# $Revision: 1.19 $
-# $Author: c102mk $
 #
-# (c) 2001 Christian Glahn <christian.glahn@uibk.ac.at>
-# All rights reserved.
+# (c) 2001 Christian Glahn <phish@CPAN.org>
 #
 # This code is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -33,7 +28,7 @@ use Carp;
 
 # ################################################################
 
-$CGI::XMLApplication::VERSION = "1.1.3";
+$CGI::XMLApplication::VERSION = "1.1.4";
 
 # ################################################################
 # general configuration
@@ -484,7 +479,7 @@ power of the L<XML::LibXML>/ L<XML::LibXSLT> module package for
 content deliverment.
 
 As well CGI::XMLApplication is designed to support project management
-on code level. The class allows to split web applications into several
+on code level. The class allows splitting web applications into several
 simple parts. Through this most of the code stays simple and easy to
 maintain. Throughout the whole runtime of a script
 CGI::XMLApplication tries to keep the application stable. As well a
@@ -520,10 +515,9 @@ implement a real life application with the complete overhead of more
 or less redundant code. Since most CGI-scripts are waiting for
 B<events>, which is usually the code abstraction of a click of a
 submit button or an image, CGI::XMLApplication implements a simple
-event system, that allows to keep event related code as separated as
-possible.
+event system, that keeps event related code separated from other events.
 
-Therefore final application class is not ment to have a constructor
+Therefore, a final application class is not meant to have a constructor
 anymore. All functionality should be encapsulated into implicit or
 explicit event handlers. Because of a lack in Perl's OO implementation
 the call of a superclass constructor before the current constructor
@@ -688,7 +682,7 @@ method B<run()>.  Since this method is extremly simple and transparent
 to any kind of display type, there should be no need to override this
 function. One can pass a context hash or context object, to pass external
 or prefetched information to the application. This context will be
-available and acessable in all events and most extra functions.
+available and accessible in all events and most extra functions.
 
 This function does all event and serialization related work. As well
 there is some validation done as well, so catched events, that are not
@@ -756,8 +750,8 @@ the system.
 
 To make it clear: If CGI::XMLApplication throws a panic, the
 application is broken, not completely implemented or stylesheets are
-missing or broken. Application panics are ment for debugging purposes
-and to avoid I<Internal Server Errors>. They are B<not> ment as a
+missing or broken. Application panics are meant for debugging purposes
+and to avoid I<Internal Server Errors>. They are B<not> meant as a
 replacement of a propper error handling!
 
 But how does CGI::XMLApplication know about the correct event handler?
@@ -777,7 +771,7 @@ E.g. event_init handles the init event described below.
 
 Each event has a single Parameter, the context. This can be an unblessed
 hash reference or an object, where the user can store whatever needed.
-This context is useful to pass scriptwide data between callbacks and 
+This context is useful to pass scriptwide data between callbacks and
 event functions around. The callback is even available and useable if
 the script does not initialize the application context as earlier shown
 in the program flow chart.
@@ -896,8 +890,8 @@ data is send to the user.
 =item event_default
 
 This event is called as a fallback mechanism if CGI::XMLApplication
-did not receive a stylesheet id by an other event handler; for example
-if no event matched.
+did not receive a stylesheet id by another event handler, for example
+if no event is matched.
 
 =back
 
@@ -994,7 +988,7 @@ Content-Type). This can be used to set the I<nocache> pragma, to set
 or remove cookies. The keys of the hash must be the same as the named
 parameters of CGI.pm's header method. One does not need to care about
 the output of these headers, this is done by CGI::XMLApplication
-automaticly.
+automatically.
 
 The content type of the returned data is usually not required to be
 set this way, since the XSLT processor knows about the content type,
@@ -1005,8 +999,9 @@ too.
 If the B<getStylesheet> is implemented the CGI::XMLApplication will
 assume the returned value either as a filename of a stylesheet or as a
 XML DOM representation of the same. If Stylesheets are stored in a
-file accessable from the , one should set the common path for the
-stylesheets and let B<CGI::XMLApplication> do the parsing job.
+folder accessible for the the web-server, a common path for the
+stylesheets should be set and  B<CGI::XMLApplication> will initiate
+the parsing job.
 
 In cases the stylesheet is already present as a string (e.g. as a
 result of a database query) one may pass this string directly to
@@ -1018,32 +1013,32 @@ compatibility reasons.
 If none of these stylesheet selectors succeeds the I<Stylesheet
 missing> panic code is thrown. If the parsing of the stylesheet XML
 fails I<Stylesheet not available> is thrown. The latter case will also
-give some informations where the stylesheet selection failed.
+provide details where the stylesheet selection failed.
 
 B<selectStylesheet()> has to return a valid path/filename for the
 stylesheet requested.
 
 =item getXSLTParameter()
 
-This function allows to pass a set of parameters to XML::LibXSLT's xsl
+This function helps passing parameters to XML::LibXSLT's xsl
 processor. The function needs only to return a hash and does not need
 to encode the parameters.
 
 The function is the last callback called before the XSLT processing is
-done.
+started.
 
 =back
 
 =head2 Flow Control
 
-Besides the sendEvent() function does CGI::XMLApplication provide to
-other functions that allow to controll the flow of the application.
+Besides the sendEvent() function, CGI::XMLApplication provides
+two additional functions for controlling the flow of the application.
 
 These two functions are related to the XML serialization and have not
 affect to the event handling.
 
 
-=over 4 
+=over 4
 
 =item passthru()
 
@@ -1065,9 +1060,9 @@ Optional the function takes a single parameter, which shows if the
 function should be used in set rather than get mode. The parameter is
 interpreted as just described.
 
-If an application sets passthru by itself any external 'passthru'
-parameter will be lost. This is usefull if one likes to avoid, someone
-can fetch the plain (untransformed) XML Data.
+If an application sets passthru by itself, any external 'passthru'
+parameter will be lost. This is useful if the application requires
+access to the plain (untransformed) XML Data.
 
 
 =item skipSerialization()
@@ -1096,14 +1091,14 @@ To avoid the call of B<serialization()> one should set B<skipSerialization>.
 This function searches the query string for a parameter with the
 passed name. The implementation is "imagesave" meaning there is no
 change in the code needed, if you switch from input.type=submit to
-input.type=image or vv. The algorithm tests wheter a full name is
+input.type=image or vv. The algorithm tests whether a full name is
 found in the querystring, if not it tries tests for the name expanded
 by a '.x'. In context of events this function interprets each item
 part in the query string list as an event. Because of that, the
 algorithm returns only the first item matched.
 
-If you use the event interface on this function, make sure, the
-HTML-forms pass unique events to the script. This is neccessary to
+If you use the event interface with this function, then the
+HTML-forms should pass unique events to the script in order to
 avoid confusing behaviour.
 
 This function is used by testEvent() so if it is required to change
@@ -1113,11 +1108,11 @@ the way CGI::XMLApplication selects events, override that function.
 
 This a simple error message handler. By default this function will
 print some information to the client where the application
-failed. While development this is a useful feature on production
+failed. During development, this is a useful feature, while on a production
 system this may pass vunerable informations about the system to the
-outside. To change the default behaviour, one may write his own panic
-method or simply set I<$CGI::XMLApplication::Quiet> to 1. The latter
-still causes the error page but does not send any error message.
+clients. To change the default behaviour, I<$CGI::XMLApplication::Quiet>
+should get set to 1. This will still show an error page but without
+displaying error messages. Alternatively, the panic method can be overloaded.
 
 The current implementation send the 404 status to the client if any
 low level errors occour ( e.g. panic levels > -4 aka Application
@@ -1173,9 +1168,9 @@ structure Vars returns.
 =head2 some extra functions for stylesheet handling
 
 The getStylesheet() function should return either a filename or a
-stringnyfied XSL-DOM. For the firstcase it can be a restriction to
-return the fully qualified path. The following functions allow to set
-the stylesheetpath systemwide.
+stringnyfied XSL-DOM. For the first case it can be a restriction to
+return the fully qualified path. The following functions help managing
+the stylesheetpath, system-wide.
 
 =over 4
 
@@ -1187,7 +1182,8 @@ alias for B<setStylesheetPath>
 
 This method is for telling the application where the stylesheets can
 be found. If you keep your stylesheets in the same directory as your
-script -- IMHO a bad idea -- you might leave this untouched.
+script you might leave this untouched. However, it is suggested to store
+stylesheet files in a directory that is out of reach for client access.
 
 =item function getStylesheetPath
 
@@ -1203,8 +1199,8 @@ CGI, perlobj, perlmod, XML::LibXML, XML::LibXSLT
 
 =head1 AUTHOR
 
-Christian Glahn, christian.glahn@uibk.ac.at
+Christian Glahn, phish@cpan.org
 
 =head1 VERSION
 
-1.1.1
+1.1.4
