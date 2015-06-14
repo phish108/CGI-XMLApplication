@@ -8,3 +8,7 @@ MYMETA.json
 Makefile
 
 MYMETA.yml
+
+blib/*
+*.tar.gz
+pm_to_blib
