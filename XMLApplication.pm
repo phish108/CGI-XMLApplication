@@ -28,7 +28,7 @@ use Carp;
 
 # ################################################################
 
-$CGI::XMLApplication::VERSION = "1.1.4";
+$CGI::XMLApplication::VERSION = "1.1.5";
 
 # ################################################################
 # general configuration
@@ -807,7 +807,7 @@ B<testEvent()> by the B<run()> function.
 
 =item method sendEvent SCALAR
 
-Sometimes it could be neccessary to send an event by your own (the
+Sometimes it could be necessary to send an event by your own (the
 script's) initiative. A possible example could be if you don't have
 client input but path_info data, which determinates how the script
 should behave or session information is missing, so the client should
@@ -869,7 +869,7 @@ Example:
 CGI::XMLApplication knows three implicit events which are more or less
 independent to client responses: They are 'init', 'exit', and
 'default'. These events already exist for any
-CGI::XMLApplication. They need not to be implemented separatly if they
+CGI::XMLApplication. They need not to be implemented separately if they
 make no sense for the application.
 
 =over 4
@@ -1109,7 +1109,7 @@ the way CGI::XMLApplication selects events, override that function.
 This a simple error message handler. By default this function will
 print some information to the client where the application
 failed. During development, this is a useful feature, while on a production
-system this may pass vunerable informations about the system to the
+system this may pass vulnerable information about the system to the
 clients. To change the default behaviour, I<$CGI::XMLApplication::Quiet>
 should get set to 1. This will still show an error page but without
 displaying error messages. Alternatively, the panic method can be overloaded.
@@ -1146,7 +1146,7 @@ CGI.pm
 
 =item function checkFields LIST
 
-This is an easy way to test wether all required fields are filled out
+This is an easy way to test whether all required fields are filled out
 correctly. Called in array context the function returns the list of
 missing parameter. (Different to param() which returns all parameter names).
 In scalar context the function returns a boolean value.
@@ -1203,4 +1203,4 @@ Christian Glahn, phish@cpan.org
 
 =head1 VERSION
 
-1.1.4
+1.1.5
